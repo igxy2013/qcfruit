@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>七彩果坊水果定价计算器</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+      background: #e8f5e3;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 480px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 32px 24px 24px 24px;
+    }
+    h2 {
+      text-align: center;
+      color: #2d3748;
+      margin-bottom: 24px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #4a5568;
+      font-weight: 500;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 18px;
+      border: 1px solid #cbd5e0;
+      border-radius: 6px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    .result {
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 18px 14px;
+      margin-top: 18px;
+      color: #2d3748;
+      font-size: 16px;
+    }
+    .result strong {
+      color: #3182ce;
+    }
+    .tips {
+      color: #718096;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+    button {
+      width: 100%;
+      background: #3182ce;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 0;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="text-align:center;margin-bottom:8px;">
+      <img src="七彩果坊_0001.PNG" alt="七彩果坊LOGO" style="width:240px;height:auto;display:inline-block;" />
+    </div>
+    <h1 style="text-align:center;color:#38a169;font-size:2em;margin-bottom:32px;letter-spacing:2px;">水果定价计算器</h1>
+    <!-- <h2>水果定价计算器</h2> -->
+    <div class="tips">请输入采购信息，系统将自动计算建议售价</div>
+    <form id="priceForm" onsubmit="event.preventDefault(); calcPrice();">
+      <label>水果种类</label>
+      <select id="fruitType" onchange="setAvgLossRate()" style="width:100%;padding:8px 10px;margin-bottom:18px;border:1px solid #cbd5e0;border-radius:6px;font-size:16px;box-sizing:border-box;">
+        <option value="apple">苹果</option>
+        <option value="banana">香蕉</option>
+        <option value="grape">葡萄</option>
+        <option value="orange">橙子</option>
+        <option value="watermelon">西瓜</option>
+        <option value="strawberry">草莓</option>
+        <option value="pear">梨</option>
+        <option value="mango">芒果</option>
+        <option value="pineapple">菠萝</option>
+        <option value="peach">桃子</option>
+        <option value="kiwi">猕猴桃</option>
+        <option value="cherry">樱桃</option>
+        <option value="plum">李子</option>
+        <option value="blueberry">蓝莓</option>
+        <option value="lemon">柠檬</option>
+        <option value="pomegranate">石榴</option>
+        <option value="cantaloupe">哈密瓜</option>
+        <option value="dragonfruit">火龙果</option>
+        <option value="coconut">椰子</option>
+        <option value="apricot">杏</option>
+        <option value="litchi">荔枝</option>
+        <option value="cherryking">车厘子</option>
+        <option value="other">其他</option>
+      </select>
+      <label>采购单价（元/斤）</label>
+      <input type="number" id="costPrice" step="0.01" min="0" required>
+      <label>损耗率（%）</label>
+      <input type="number" id="lossRate" step="0.1" min="0" max="100" required>
+      <label>运输距离（公里）</label>
+      <input type="number" id="distance" step="0.1" min="0" required>
+      <label>市场参考价（元/斤，可选）</label>
+      <input type="number" id="marketPrice" step="0.01" min="0">
+      <label>运输成本（元/斤/公里）</label>
+      <input type="number" id="transCost" step="0.01" min="0" value="0.05">
+      <label>利润率（%）</label>
+      <input type="number" id="profitRate" step="0.1" min="0" max="100" value="25">
+      <button type="submit">计算售价</button>
+    </form>
+    <div class="result" id="result" style="display:none;"></div>
+  </div>
+  <script>
+    // 内置水果平均损耗率
+    const fruitLossRates = {
+      apple: 5,
+      banana: 10,
+      grape: 12,
+      orange: 8,
+      watermelon: 4,
+      strawberry: 15,
+      pear: 6,
+      mango: 9,
+      pineapple: 13,
+      peach: 10,
+      kiwi: 11,
+      cherry: 14,
+      plum: 9,
+      blueberry: 16,
+      lemon: 7,
+      pomegranate: 8,
+      cantaloupe: 5,
+      dragonfruit: 7,
+      coconut: 3,
+      apricot: 12,
+      litchi: 13,
+      cherryking: 10,
+      other: 8
+    };
+
+    // 选择水果后自动填充平均损耗率
+    function setAvgLossRate() {
+      const fruit = document.getElementById('fruitType').value;
+      document.getElementById('lossRate').value = fruitLossRates[fruit];
+    }
+
+    // 页面加载时自动填充默认水果损耗率
+    window.onload = function() {
+      setAvgLossRate();
+    };
+
+    function calcPrice() {
+      // 获取输入值
+      const costPrice = parseFloat(document.getElementById('costPrice').value);
+      const lossRate = parseFloat(document.getElementById('lossRate').value) / 100;
+      const distance = parseFloat(document.getElementById('distance').value);
+      const marketPrice = parseFloat(document.getElementById('marketPrice').value) || null;
+      const transCost = parseFloat(document.getElementById('transCost').value);
+      const profitRate = parseFloat(document.getElementById('profitRate').value) / 100;
+
+      // 损耗后成本
+      const costAfterLoss = costPrice / (1 - lossRate);
+      // 运输成本
+      const transportCost = distance * transCost;
+      // 总成本
+      const totalCost = costAfterLoss + transportCost;
+      // 建议开团价（利润率）
+      let groupPrice = totalCost * (1 + profitRate);
+      // 调整开团价为以.9结尾
+      groupPrice = Math.floor(groupPrice) + 0.9;
+      // 建议线下售价（至少高于开团价2元）
+      let offlinePrice = groupPrice + 2;
+
+      // 市场竞争力建议
+      let marketSuggest = '';
+      if (marketPrice) {
+        const suggestGroup = marketPrice * 0.95;
+        if (groupPrice > suggestGroup) {
+          marketSuggest = `建议开团价高于市场价95%（${suggestGroup.toFixed(2)}元/斤），可适当下调以增强竞争力。`;
+        } else {
+          marketSuggest = `建议开团价已低于市场价95%（${suggestGroup.toFixed(2)}元/斤），具有竞争优势。`;
+        }
+      }
+
+      // 显示结果
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('result').innerHTML = `
+        <div>损耗后成本：<strong>${costAfterLoss.toFixed(2)}</strong> 元/斤</div>
+        <div>运输成本：<strong>${transportCost.toFixed(2)}</strong> 元/斤</div>
+        <div>总成本：<strong>${totalCost.toFixed(2)}</strong> 元/斤</div>
+        <div>建议开团价：<strong>${groupPrice.toFixed(1)}</strong> 元/斤</div>
+        <div>建议线下售价：<strong>${offlinePrice.toFixed(1)}</strong> 元/斤</div>
+        ${marketSuggest ? `<div style='margin-top:10px;color:#e53e3e;'>${marketSuggest}</div>` : ''}
+      `;
+    }
+  </script>
+</body>
+</html> 
