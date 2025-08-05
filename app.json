@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#38a169",
+    "navigationBarTitleText": "七彩果坊水果定价计算器",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#e8f5e3"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+} 

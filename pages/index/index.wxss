@@ -1,0 +1,19 @@
+/* pages/index/index.wxss */
+.picker-text {
+  color: #2d3748;
+  line-height: 36rpx;
+}
+
+.form-input:focus {
+  border-color: #3182ce;
+}
+
+.form-picker:focus {
+  border-color: #3182ce;
+}
+
+.form-input[disabled] {
+  background-color: #f7fafc;
+  color: #718096;
+  cursor: not-allowed;
+} 

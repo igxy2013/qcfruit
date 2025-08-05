@@ -1,0 +1,112 @@
+/**app.wxss**/
+page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+  background-color: #e8f5e3;
+}
+
+.container {
+  padding: 32rpx 24rpx 24rpx 24rpx;
+  background: #fff;
+  margin: 40rpx 24rpx;
+  border-radius: 24rpx;
+  box-shadow: 0 4rpx 24rpx rgba(0,0,0,0.08);
+}
+
+.title {
+  text-align: center;
+  color: #38a169;
+  font-size: 2em;
+  margin-bottom: 32rpx;
+  letter-spacing: 4rpx;
+  font-weight: bold;
+}
+
+.tips {
+  color: #718096;
+  font-size: 26rpx;
+  margin-bottom: 36rpx;
+  text-align: center;
+}
+
+.form-item {
+  margin-bottom: 28rpx;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 12rpx;
+  color: #4a5568;
+  font-weight: 500;
+  font-size: 28rpx;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12rpx 16rpx;
+  border: 2rpx solid #cbd5e0;
+  border-radius: 8rpx;
+  font-size: 30rpx;
+  box-sizing: border-box;
+  background: #fff;
+  height: 60rpx;
+  line-height: 36rpx;
+}
+
+.form-picker {
+  width: 100%;
+  padding: 12rpx 16rpx;
+  border: 2rpx solid #cbd5e0;
+  border-radius: 8rpx;
+  font-size: 30rpx;
+  box-sizing: border-box;
+  background: #fff;
+  height: 60rpx;
+  line-height: 36rpx;
+}
+
+.calc-btn {
+  width: 100%;
+  background: #3182ce;
+  color: #fff;
+  border: none;
+  border-radius: 12rpx;
+  padding: 24rpx 0;
+  font-size: 34rpx;
+  font-weight: bold;
+  margin-top: 16rpx;
+}
+
+.calc-btn:active {
+  background: #2563eb;
+}
+
+.result {
+  background: #f1f5f9;
+  border-radius: 16rpx;
+  padding: 36rpx 28rpx;
+  margin-top: 36rpx;
+  color: #2d3748;
+  font-size: 32rpx;
+}
+
+.result-item {
+  margin-bottom: 16rpx;
+}
+
+.result-strong {
+  color: #3182ce;
+  font-weight: bold;
+}
+
+.market-suggest {
+  margin-top: 20rpx;
+  color: #e53e3e;
+  font-size: 28rpx;
+}
+
+.logo {
+  width: 480rpx;
+  height: auto;
+  display: block;
+  margin: 0 auto 16rpx;
+} 

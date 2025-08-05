@@ -1,0 +1,72 @@
+<view class="container">
+  <image class="logo" src="/七彩果坊_0001.PNG" mode="aspectFit"></image>
+  <view class="title">水果定价计算器</view>
+  <view class="tips">请输入采购信息，系统将自动计算建议售价</view>
+  
+  <form bindsubmit="calcPrice">
+    <view class="form-item">
+      <text class="form-label">水果种类</text>
+      <picker class="form-picker" bindchange="onFruitChange" value="{{fruitIndex}}" range="{{fruitNames}}">
+        <view class="picker-text">{{fruitNames[fruitIndex]}}</view>
+      </picker>
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">筐类型</text>
+      <picker class="form-picker" bindchange="onBasketChange" value="{{basketIndex}}" range="{{basketNames}}">
+        <view class="picker-text">{{basketNames[basketIndex]}}</view>
+      </picker>
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">标准重量（千克）</text>
+      <input class="form-input" type="digit" placeholder="请输入标准重量" value="{{standardWeight}}" bindinput="onStandardWeightInput" />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">毛单价（元/斤）</text>
+      <input class="form-input" type="digit" placeholder="请输入毛单价" value="{{grossPrice}}" bindinput="onGrossPriceInput" />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">净单价（元/斤）</text>
+      <input class="form-input" type="digit" placeholder="系统自动计算" value="{{netPrice}}" disabled />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">损耗率（%）</text>
+      <input class="form-input" type="digit" placeholder="请输入损耗率" value="{{lossRate}}" bindinput="onLossRateInput" />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">运输距离（公里）</text>
+      <input class="form-input" type="digit" placeholder="请输入运输距离" value="{{distance}}" bindinput="onDistanceInput" />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">市场参考价（元/斤，可选）</text>
+      <input class="form-input" type="digit" placeholder="请输入市场参考价" value="{{marketPrice}}" bindinput="onMarketPriceInput" />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">运输成本（元/斤/公里）</text>
+      <input class="form-input" type="digit" placeholder="请输入运输成本" value="{{transCost}}" bindinput="onTransCostInput" />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">利润率（%）</text>
+      <input class="form-input" type="digit" placeholder="请输入利润率" value="{{profitRate}}" bindinput="onProfitRateInput" />
+    </view>
+    
+    <button class="calc-btn" form-type="submit">计算售价</button>
+  </form>
+  
+  <view class="result" wx:if="{{showResult}}">
+    <view class="result-item">损耗后成本：<text class="result-strong">{{costAfterLoss}}</text> 元/斤</view>
+    <view class="result-item">运输成本：<text class="result-strong">{{transportCost}}</text> 元/斤</view>
+    <view class="result-item">总成本：<text class="result-strong">{{totalCost}}</text> 元/斤</view>
+    <view class="result-item">建议开团价：<text class="result-strong">{{groupPrice}}</text> 元/斤</view>
+    <view class="result-item">建议线下售价：<text class="result-strong">{{offlinePrice}}</text> 元/斤</view>
+    <view class="market-suggest" wx:if="{{marketSuggest}}">{{marketSuggest}}</view>
+  </view>
+</view> 
