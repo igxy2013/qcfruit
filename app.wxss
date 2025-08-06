@@ -16,7 +16,7 @@ page {
   text-align: center;
   color: #38a169;
   font-size: 2em;
-  margin-bottom: 32rpx;
+  margin-bottom: 22rpx;
   letter-spacing: 4rpx;
   font-weight: bold;
 }
@@ -108,5 +108,5 @@ page {
   width: 480rpx;
   height: auto;
   display: block;
-  margin: 0 auto 16rpx;
+  margin: 0 auto 6rpx;
 } 

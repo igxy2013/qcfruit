@@ -1,0 +1,54 @@
+<view class="container">
+  <view class="header">
+    <view class="back-btn" bindtap="goBack">← 返回</view>
+    <view class="title">筐类型设置</view>
+  </view>
+
+  <view class="content">
+    <view class="section">
+      <view class="section-title">自定义筐类型</view>
+      <view class="add-btn" bindtap="showAddForm">+ 添加新筐类型</view>
+    </view>
+
+    <!-- 添加表单 -->
+    <view class="add-form" wx:if="{{showAddForm}}">
+      <view class="form-item">
+        <text class="form-label">筐名称</text>
+        <input class="form-input" type="text" placeholder="请输入筐名称" value="{{newBasketName}}" bindinput="onBasketNameInput" maxlength="50" />
+      </view>
+      
+      <view class="form-item">
+        <text class="form-label">筐重量（斤）</text>
+        <input class="form-input" type="digit" placeholder="请输入筐重量" value="{{newBasketWeight}}" bindinput="onBasketWeightInput" maxlength="10" />
+      </view>
+      
+      <view class="form-buttons">
+        <button class="cancel-btn" bindtap="hideAddForm">取消</button>
+        <button class="confirm-btn" bindtap="addCustomBasket">确定</button>
+      </view>
+    </view>
+
+    <!-- 自定义筐类型列表 -->
+    <view class="basket-list" wx:if="{{customBaskets.length > 0}}">
+      <view class="list-title">已添加的筐类型：</view>
+      <view class="basket-item" wx:for="{{customBaskets}}" wx:key="name">
+        <view class="basket-info">
+          <text class="basket-name">{{item.name}}</text>
+          <text class="basket-weight">{{item.weight}}斤</text>
+        </view>
+        <view class="delete-btn" bindtap="deleteCustomBasket" data-index="{{index}}">删除</view>
+      </view>
+    </view>
+
+    <view class="empty-tip" wx:if="{{customBaskets.length === 0}}">
+      暂无自定义筐类型，点击上方按钮添加
+    </view>
+
+    <view class="tips">
+      <view class="tip-title">使用说明：</view>
+      <view class="tip-item">• 添加的自定义筐类型将在主页的筐类型选择器中显示</view>
+      <view class="tip-item">• 筐重量用于计算净单价，请准确填写</view>
+      <view class="tip-item">• 可以随时添加或删除自定义筐类型</view>
+    </view>
+  </view>
+</view> 

@@ -47,7 +47,7 @@
     }
   },
   "compileType": "miniprogram",
-  "libVersion": "2.19.4",
+  "libVersion": "3.9.0",
   "appid": "wx0bd7b0ea567e7bd0",
   "projectname": "七彩果坊水果定价计算器",
   "condition": {},

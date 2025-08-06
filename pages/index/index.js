@@ -6,8 +6,8 @@ Page({
     fruitIndex: 0,
     
     // 筐类型数据
-    basketNames: ['4.5斤筐', '5斤筐', '2.5斤筐'],
-    basketValues: ['4.5', '5', '2.5'],
+    basketNames: ['无', '4.5斤筐', '5斤筐', '2.5斤筐'],
+    basketValues: ['0', '4.5', '5', '2.5'],
     basketIndex: 0,
     
     // 表单数据
@@ -61,7 +61,13 @@ Page({
   onLoad() {
     // 页面加载时设置默认损耗率和筐重
     this.setAvgLossRate();
+    this.loadBasketTypes();
     this.setBasketWeight();
+  },
+
+  onShow() {
+    // 每次显示页面时重新加载筐类型
+    this.loadBasketTypes();
   },
 
   // 水果选择改变
@@ -90,6 +96,31 @@ Page({
     });
   },
 
+  // 加载筐类型（包括自定义筐类型）
+  loadBasketTypes() {
+    // 默认筐类型
+    const defaultBaskets = [
+      { name: '无', value: '0' },
+      { name: '4.5斤筐', value: '4.5' },
+      { name: '5斤筐', value: '5' },
+      { name: '2.5斤筐', value: '2.5' }
+    ];
+
+    // 从本地存储获取自定义筐类型
+    const customBaskets = wx.getStorageSync('customBaskets') || [];
+    
+    // 合并默认筐类型和自定义筐类型
+    const allBaskets = [...defaultBaskets, ...customBaskets];
+    
+    const basketNames = allBaskets.map(basket => basket.name);
+    const basketValues = allBaskets.map(basket => basket.value);
+    
+    this.setData({
+      basketNames: basketNames,
+      basketValues: basketValues
+    });
+  },
+
   // 设置筐重
   setBasketWeight() {
     const basketValue = this.data.basketValues[this.data.basketIndex];
@@ -104,9 +135,15 @@ Page({
     const standardWeight = parseFloat(this.data.standardWeight);
     const basketWeight = parseFloat(this.data.basketWeight);
     
-    if (grossPrice && standardWeight && basketWeight) {
-      // 新的净单价计算公式
-      const netPrice = (grossPrice * standardWeight) / (standardWeight - basketWeight);
+    if (grossPrice && standardWeight) {
+      let netPrice;
+      if (basketWeight === 0) {
+        // 当筐重为0时，净单价等于毛单价
+        netPrice = grossPrice;
+      } else {
+        // 新的净单价计算公式
+        netPrice = (grossPrice * standardWeight) / (standardWeight - basketWeight);
+      }
       
       this.setData({
         netPrice: netPrice.toFixed(2)
@@ -173,7 +210,7 @@ Page({
     const profitRate = parseFloat(this.data.profitRate) / 100;
 
     // 验证输入
-    if (!standardWeight || !basketWeight || !grossPrice || !netPrice || !lossRate || !distance || !transCost || !profitRate) {
+    if (!standardWeight || !grossPrice || !netPrice || !lossRate || !distance || !transCost || !profitRate) {
       wx.showToast({
         title: '请填写完整信息',
         icon: 'none'
@@ -220,6 +257,13 @@ Page({
     }, () => {
       // 计算完成后滚动到页面底部
       this.scrollToBottom();
+    });
+  },
+
+  // 跳转到设置页面
+  goToSettings() {
+    wx.navigateTo({
+      url: '/pages/settings/settings'
     });
   },
 

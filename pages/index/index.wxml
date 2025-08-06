@@ -1,7 +1,13 @@
 <view class="container">
-  <image class="logo" src="/七彩果坊_0001.PNG" mode="aspectFit"></image>
+  <view class="header">
+    <image class="logo" src="/logo.png" mode="aspectFit"></image>
+  </view>
   <view class="title">水果定价计算器</view>
   <view class="tips">请输入采购信息，系统将自动计算建议售价</view>
+  <view class="settings-btn" bindtap="goToSettings">
+    <text class="settings-icon">⚙</text>
+    <text class="settings-text">设置</text>
+  </view>
   
   <form bindsubmit="calcPrice">
     <view class="form-item">
