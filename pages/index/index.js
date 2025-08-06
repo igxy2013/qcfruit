@@ -109,8 +109,14 @@ Page({
     // 从本地存储获取自定义筐类型
     const customBaskets = wx.getStorageSync('customBaskets') || [];
     
+    // 将自定义筐类型的weight字段转换为value字段
+    const convertedCustomBaskets = customBaskets.map(basket => ({
+      name: basket.name,
+      value: basket.weight
+    }));
+    
     // 合并默认筐类型和自定义筐类型
-    const allBaskets = [...defaultBaskets, ...customBaskets];
+    const allBaskets = [...defaultBaskets, ...convertedCustomBaskets];
     
     const basketNames = allBaskets.map(basket => basket.name);
     const basketValues = allBaskets.map(basket => basket.value);

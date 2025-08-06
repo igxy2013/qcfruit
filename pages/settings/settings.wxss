@@ -5,20 +5,29 @@
 }
 
 .header {
-  display: flex;
-  align-items: center;
+  position: relative;
   margin-bottom: 30rpx;
   padding: 20rpx 0;
+  height: 80rpx;
 }
 
 .back-btn {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   color: #007aff;
   font-size: 32rpx;
   padding: 10rpx;
+  z-index: 10;
 }
 
 .title {
-  flex: 1;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   text-align: center;
   font-size: 36rpx;
   font-weight: bold;
