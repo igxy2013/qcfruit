@@ -24,7 +24,7 @@
     </view>
     
     <view class="form-item">
-      <text class="form-label">标准重量（千克）</text>
+      <text class="form-label">标准重量（斤）</text>
       <input class="form-input" type="digit" placeholder="请输入标准重量" value="{{standardWeight}}" bindinput="onStandardWeightInput" />
     </view>
     
